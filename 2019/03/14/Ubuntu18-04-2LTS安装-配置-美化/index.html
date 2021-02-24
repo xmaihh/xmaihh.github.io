@@ -1,0 +1,288 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>Ubuntu18.04.2LTS安装、配置、美化 | 小麦</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create','UA-131087828-1','auto');ga('send','pageview');
+</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Ubuntu18.04.2LTS安装、配置、美化</h1><a id="logo" href="/.">小麦</a><p class="description">人生的大起大落来得太突然，搞得我直想尿尿...</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Ubuntu18.04.2LTS安装、配置、美化</h1><div class="post-meta">2019-03-14<span> | </span><span class="category"><a href="/categories/Linux/">Linux</a></span></div><a class="disqus-comment-count" href="/2019/03/14/Ubuntu18-04-2LTS%E5%AE%89%E8%A3%85-%E9%85%8D%E7%BD%AE-%E7%BE%8E%E5%8C%96/#vcomment"><span class="valine-comment-count" data-xid="/2019/03/14/Ubuntu18-04-2LTS%E5%AE%89%E8%A3%85-%E9%85%8D%E7%BD%AE-%E7%BE%8E%E5%8C%96/"></span><span> 条评论</span></a><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ubuntu18-04-2LTS%E5%AE%89%E8%A3%85%E3%80%81%E9%85%8D%E7%BD%AE%E3%80%81%E7%BE%8E%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">Ubuntu18.04.2LTS安装、配置、美化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%87%86%E5%A4%87"><span class="toc-number">1.1.</span> <span class="toc-text">安装准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E7%9B%98%E5%88%86%E5%8C%BA"><span class="toc-number">1.2.</span> <span class="toc-text">硬盘分区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9DNS"><span class="toc-number">1.3.</span> <span class="toc-text">修改DNS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step1-%E6%B7%BB%E5%8A%A0Google%E2%80%99s-DNS"><span class="toc-number">1.3.1.</span> <span class="toc-text">Step1:添加Google’s DNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step2-%E9%87%8D%E5%95%93%E7%B6%B2%E7%B5%A1%E6%88%96%E8%80%85%E9%87%8D%E5%95%93%E9%9B%BB%E8%85%A6"><span class="toc-number">1.3.2.</span> <span class="toc-text">Step2:重啓網絡或者重啓電腦</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%8D%A2root%E5%AF%86%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">更换root密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sudo%E5%85%8D%E5%AF%86%E7%A0%81"><span class="toc-number">1.5.</span> <span class="toc-text">sudo免密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%BA%90"><span class="toc-number">1.6.</span> <span class="toc-text">更新源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sougou-Pinyin"><span class="toc-number">1.7.</span> <span class="toc-text">Sougou Pinyin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WPS"><span class="toc-number">1.8.</span> <span class="toc-text">WPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%8B%E7%BC%A9%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.9.</span> <span class="toc-text">压缩软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Google-Chrome"><span class="toc-number">1.10.</span> <span class="toc-text">Google Chrome</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vim"><span class="toc-number">1.11.</span> <span class="toc-text">vim</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%9DVS-Code"><span class="toc-number">1.12.</span> <span class="toc-text">安裝VS Code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E7%89%88%E6%9C%ACgcc%E5%92%8Cg-%E5%85%B1%E5%AD%98"><span class="toc-number">1.13.</span> <span class="toc-text">多版本gcc和g++共存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E7%89%88%E6%9C%ACpython%E5%92%8Cpip%E5%85%B1%E5%AD%98"><span class="toc-number">1.14.</span> <span class="toc-text">多版本python和pip共存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%AF%E6%8C%81exfat"><span class="toc-number">1.15.</span> <span class="toc-text">支持exfat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9F%B3%E8%A7%86%E9%A2%91"><span class="toc-number">1.16.</span> <span class="toc-text">音视频</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85FFmpeg"><span class="toc-number">1.16.1.</span> <span class="toc-text">安装FFmpeg</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%A7%A3%E7%A0%81%E5%99%A8"><span class="toc-number">1.16.2.</span> <span class="toc-text">安装解码器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85VLC%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8"><span class="toc-number">1.16.3.</span> <span class="toc-text">安装VLC视频播放器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BD%95%E5%88%B6gif%E8%BD%AF%E4%BB%B6peek"><span class="toc-number">1.16.4.</span> <span class="toc-text">安装录制gif软件peek</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BE%8E%E5%8C%96"><span class="toc-number">1.17.</span> <span class="toc-text">美化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8Bgnome%E7%89%88%E6%9C%AC"><span class="toc-number">1.17.1.</span> <span class="toc-text">查看gnome版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Tweaks%E5%AF%B9gnome%E7%BE%8E%E5%8C%96"><span class="toc-number">1.17.2.</span> <span class="toc-text">使用Tweaks对gnome美化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dash-to-dock-Settings"><span class="toc-number">1.17.3.</span> <span class="toc-text">Dash to dock Settings</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="toc-number">1.17.3.1.</span> <span class="toc-text">问题：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%81%8A%E5%A4%A9%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.18.</span> <span class="toc-text">聊天软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E9%80%9F%E5%92%8CCPU%E4%BD%BF%E7%94%A8%E7%8E%87%E5%B7%A5%E5%85%B7"><span class="toc-number">1.19.</span> <span class="toc-text">网速和CPU使用率工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85npm"><span class="toc-number">1.20.</span> <span class="toc-text">安装npm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git"><span class="toc-number">1.21.</span> <span class="toc-text">Git</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2019-7-30%E8%A1%A5%E5%85%85-%E5%8D%B8%E8%BD%BDSougou%E8%BE%93%E5%85%A5%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">2019-7-30补充 卸载Sougou输入法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">3.</span> <span class="toc-text">Reference</span></a></li></ol></div></div><div class="post-content"><h1 id="Ubuntu18-04-2LTS安装、配置、美化"><a href="#Ubuntu18-04-2LTS安装、配置、美化" class="headerlink" title="Ubuntu18.04.2LTS安装、配置、美化"></a>Ubuntu18.04.2LTS安装、配置、美化</h1><h2 id="安装准备"><a href="#安装准备" class="headerlink" title="安装准备"></a>安装准备</h2><ul>
+<li>准备<a target="_blank" rel="noopener" href="http://releases.ubuntu.com/">Ubuntu18.04镜像</a></li>
+<li>关闭Secure Boot</li>
+</ul>
+<h2 id="硬盘分区"><a href="#硬盘分区" class="headerlink" title="硬盘分区"></a>硬盘分区</h2><p>硬盘一般分为IDE硬盘、SCSI硬盘和SATA硬盘三种。</p>
+<p>在Linux系统中，IDE接口的硬盘被称为hd，SCSI和SATA接口的硬盘则被称为sd，其中IDE硬盘基本上已经淘汰，现在市面上最常见的就是SATA接口的硬盘，第1块硬盘称为sda，第2块硬盘称为sdb……，依此类推。</p>
+<p>一块硬盘最多有4个主分区，主分区以外的分区称为<a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=%E6%89%A9%E5%B1%95%E5%88%86%E5%8C%BA&tn=24004469_oem_dg&rsv_dl=gh_pl_sl_csd">扩展分区</a>，硬盘可以没有扩展分区，但是一定要有主分区，在主分区中要有一个激活分区用来启动Windows系统，在扩展分区中可以建立若干个逻辑分区，因此，最合理的分区方式应该最多分三个主分区，一个扩展分区，这样可以有效地利用有限的主分区，然后在扩展分区中建立逻辑分区。</p>
+<p>在Linux系统中每一个硬盘总共最多有 16个分区，硬盘上的4个主分区，分别标识为sdal、sda2、sda3和sda4，逻辑分区则从sda5开始标识一直到sda16。</p>
+<p>Linux可以把分区作为挂载点，载入目录，其中最常用的硬盘大小（500G-1000G）分配目录推荐如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>建议大小</th>
+<th>格式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>EFI</td>
+<td>100M</td>
+<td></td>
+<td>一定要放在开头，主分区，分配32M以上</td>
+</tr>
+<tr>
+<td>/</td>
+<td>150G-200G</td>
+<td>ext4</td>
+<td>根目录</td>
+</tr>
+<tr>
+<td>swap</td>
+<td>物理内存两倍</td>
+<td>swap</td>
+<td>交换空间：交换分区相当于Windows中的“虚拟内存”，如果内存低的话（1-4G），物理内存的两倍，高点的话（8-16G）要么等于物理内存，要么物理内存+2g左右，</td>
+</tr>
+<tr>
+<td>/boot</td>
+<td>1G左右</td>
+<td>ext4</td>
+<td><strong>空间起始位置</strong> 分区格式为ext4 <strong>/boot</strong> <strong>建议：应该大于400MB或1GB</strong> Linux的内核及引导系统程序所需要的文件，比如 vmlinuz initrd.img文件都位于这个目录中。在一般情况下，GRUB或LILO系统引导管理器也位于这个目录；启动撞在文件存放位置，如kernels，initrd，grub。</td>
+</tr>
+<tr>
+<td>/tmp</td>
+<td>5G左右</td>
+<td>ext4</td>
+<td>系统的临时文件，一般系统重启不会被保存。（建立服务器需要？）</td>
+</tr>
+<tr>
+<td>/home</td>
+<td>尽量大些</td>
+<td>ext4</td>
+<td>用户工作目录；个人配置文件，如个人环境变量等；所有账号分配一个工作目录。</td>
+</tr>
+</tbody></table>
+<h2 id="修改DNS"><a href="#修改DNS" class="headerlink" title="修改DNS"></a>修改DNS</h2><h3 id="Step1-添加Google’s-DNS"><a href="#Step1-添加Google’s-DNS" class="headerlink" title="Step1:添加Google’s DNS"></a>Step1:添加Google’s DNS</h3><p><code>vim /etc/systemd/resolved.conf</code><br>在文件中添加內容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DNS&#x3D;8.8.8.8 2001:4860:4860::8888</span><br><span class="line">FallbackDNS&#x3D;8.8.4.4 2001:4860:4860::8844</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Step2-重啓網絡或者重啓電腦"><a href="#Step2-重啓網絡或者重啓電腦" class="headerlink" title="Step2:重啓網絡或者重啓電腦"></a>Step2:重啓網絡或者重啓電腦</h3><h2 id="更换root密码"><a href="#更换root密码" class="headerlink" title="更换root密码"></a>更换root密码</h2><p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/xmaihh/piggo-token/master/img20190313142321.png"><img src="https://raw.githubusercontent.com/xmaihh/piggo-token/master/img20190313142321.png" alt="更换root密码"></a>更换root密码更换root密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xmaihh@xmaihh-H81M-S1:~$ sudo passwd root</span><br><span class="line">输入新的 UNIX 密码： </span><br><span class="line">重新输入新的 UNIX 密码： </span><br><span class="line">passwd：已成功更新密码</span><br><span class="line">xmaihh@xmaihh-H81M-S1:~$</span><br></pre></td></tr></table></figure>
+
+<h2 id="sudo免密码"><a href="#sudo免密码" class="headerlink" title="sudo免密码"></a>sudo免密码</h2><p>shell输入:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xmaihh@xmaihh-H81M-S1:~$ sudo visudo</span><br></pre></td></tr></table></figure>
+
+<p>显示如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#</span><br><span class="line"># This file MUST be edited with the &#39;visudo&#39; command as root.</span><br><span class="line">#</span><br><span class="line"># Please consider adding local content in &#x2F;etc&#x2F;sudoers.d&#x2F; instead of</span><br><span class="line"># directly modifying this file.</span><br><span class="line">#</span><br><span class="line"># See the man page for details on how to write a sudoers file.</span><br><span class="line">#</span><br><span class="line">Defaults        env_reset</span><br><span class="line">Defaults        mail_badpass</span><br><span class="line">Defaults        secure_path&#x3D;&quot;&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin:$</span><br><span class="line"></span><br><span class="line"># Host alias specification</span><br><span class="line"></span><br><span class="line"># User alias specification</span><br><span class="line"></span><br><span class="line"># Cmnd alias specification</span><br><span class="line"></span><br><span class="line"># User privilege specification</span><br><span class="line">root    ALL&#x3D;(ALL:ALL) ALL</span><br><span class="line"></span><br><span class="line"># Members of the admin group may gain root privileges</span><br><span class="line">%admin ALL&#x3D;(ALL) ALL</span><br><span class="line"></span><br><span class="line"># Allow members of group sudo to execute any command</span><br><span class="line">%sudo   ALL&#x3D;(ALL:ALL) ALL</span><br><span class="line">xmaihh  ALL&#x3D;(ALL) NOPASSWD: ALL</span><br><span class="line"></span><br><span class="line"># See sudoers(5) for more information on &quot;#include&quot; directives:</span><br><span class="line"></span><br><span class="line">#includedir &#x2F;etc&#x2F;sudoers.d</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>只要在**%sudo ALL=(ALL:ALL) ALL**下面添加一行username  ALL=(ALL) NOPASSWD: ALL</p>
+</blockquote>
+<h2 id="更新源"><a href="#更新源" class="headerlink" title="更新源"></a>更新源</h2><p>找到Software &amp; Updates，将源更新为阿里云的源 或者其他国内的源</p>
+<p>然后自己手动更新一下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+
+<h2 id="Sougou-Pinyin"><a href="#Sougou-Pinyin" class="headerlink" title="Sougou Pinyin"></a>Sougou Pinyin</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install fcitx-bin      #安装fcitx-bin</span><br><span class="line">sudo apt-get update --fix-missing   #修复fcitx-bin安装失败的情况</span><br><span class="line">sudo apt-get install fcitx-bin      #重新安装fcitx-bin</span><br><span class="line">sudo apt-get install fcitx-table    #安装fcitx-table</span><br></pre></td></tr></table></figure>
+
+<p>然后去<a target="_blank" rel="noopener" href="https://pinyin.sogou.com/linux/">搜狗输入法Linux官网</a>下载64bit的deb包程序，如：sogoupinyin_2.2.0.0108_amd64.deb</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i sogoupinyin*.deb       #安装搜狗拼音</span><br><span class="line">sudo apt-get install -f             #修复搜狗拼音安装的错误</span><br><span class="line">sudo dpkg -i sogoupinyin*.deb       #重新安装搜狗拼音</span><br></pre></td></tr></table></figure>
+
+<p>重启！重启！重启！也就是注销当前用户再重登的事</p>
+<h2 id="WPS"><a href="#WPS" class="headerlink" title="WPS"></a>WPS</h2><p>去<a target="_blank" rel="noopener" href="https://www.wps.com/download/">wps_linux官网</a>下载64bit的deb包程序，如：<a target="_blank" rel="noopener" href="http://kdl.cc.ksosoft.com/wps-community/download/6757/wps-office_10.1.0.6757_amd64.deb">wps-office_10.1.0.6757_amd64.deb</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i libpng12-0*.deb      #安装依赖libpng12-0</span><br><span class="line">sudo dpkg -i wps*.deb			  #安装wps</span><br><span class="line">sudo apt-get install -f           #若出现错误没有安装成功,用来修复</span><br></pre></td></tr></table></figure>
+
+<p>下载<a target="_blank" rel="noopener" href="https://drive.google.com/open?id=17bFkK8VvJ9MHnPGTAiDJlPf2mX_ItAer">wps字体</a>,然后解压<br>(或者<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1xBd0XIdB2tqDiDR7zABrSg">链接</a>提取码:ea2d)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir &#x2F;usr&#x2F;share&#x2F;fonts&#x2F;WPS-Fonts       #新建wps字体存储文件夹</span><br><span class="line">cd ~&#x2F;Downloads     #进入下载好的字体目录</span><br><span class="line">sudo apt-get install unzip  #安装zip解压软件</span><br><span class="line">sudo unzip wps_symbol_fonts.zip -d &#x2F;usr&#x2F;share&#x2F;fonts&#x2F;WPS-Fonts&#x2F;  #解压字体到指定文件夹</span><br><span class="line">sudo mkfontscale    #生成字体索引</span><br><span class="line">sudo mkfontdir      #生成字体索引</span><br><span class="line">sudo fc-cache       #更新字体缓存</span><br></pre></td></tr></table></figure>
+
+<h2 id="压缩软件"><a href="#压缩软件" class="headerlink" title="压缩软件"></a>压缩软件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install p7zip-full p7zip-rar rar unzip</span><br></pre></td></tr></table></figure>
+
+<h2 id="Google-Chrome"><a href="#Google-Chrome" class="headerlink" title="Google Chrome"></a>Google Chrome</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget -q -O - https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;longhr&#x2F;ubuntu1604hub&#x2F;master&#x2F;linux_signing_key.pub | sudo apt-key add</span><br><span class="line">sudo sh -c &#39;echo &quot;deb [ arch&#x3D;amd64 ] http:&#x2F;&#x2F;dl.google.com&#x2F;linux&#x2F;chrome&#x2F;deb&#x2F; stable main&quot; &gt;&gt; &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;google-chrome.list&#39;</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install google-chrome-stable</span><br></pre></td></tr></table></figure>
+
+<h2 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install vim</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝VS-Code"><a href="#安裝VS-Code" class="headerlink" title="安裝VS Code"></a>安裝VS Code</h2><p>首先下载官方安装包：<br><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/?dv=linux64_deb">https://code.visualstudio.com/docs/?dv=linux64_deb</a><br>然后在该文件路径运行以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i code_1.24.1-1528912196_amd64.deb</span><br></pre></td></tr></table></figure>
+
+
+
+<p>或者双击安装包，要安装依赖的话先安装依赖，如果双击安装无反应，可以在命令行中运行安装，然后安装所需依赖即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -f</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="多版本gcc和g-共存"><a href="#多版本gcc和g-共存" class="headerlink" title="多版本gcc和g++共存"></a>多版本gcc和g++共存</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gcc-5 gcc-5-multilib</span><br><span class="line">sudo apt-get install g++-5 g++-5-multilib</span><br><span class="line">sudo apt-get install gcc-6 gcc-6-multilib</span><br><span class="line">sudo apt-get install g++-6 g++-6-multilib</span><br><span class="line">sudo apt-get install gcc-7 gcc-7-multilib</span><br><span class="line">sudo apt-get install g++-7 g++-7-multilib</span><br><span class="line">sudo update-alternatives --install &#x2F;usr&#x2F;bin&#x2F;gcc gcc &#x2F;usr&#x2F;bin&#x2F;gcc-5 50</span><br><span class="line">sudo update-alternatives --install &#x2F;usr&#x2F;bin&#x2F;gcc gcc &#x2F;usr&#x2F;bin&#x2F;gcc-6 60</span><br><span class="line">sudo update-alternatives --install &#x2F;usr&#x2F;bin&#x2F;gcc gcc &#x2F;usr&#x2F;bin&#x2F;gcc-7 70</span><br><span class="line">sudo update-alternatives --install &#x2F;usr&#x2F;bin&#x2F;g++ g++ &#x2F;usr&#x2F;bin&#x2F;g++-5 50</span><br><span class="line">sudo update-alternatives --install &#x2F;usr&#x2F;bin&#x2F;g++ g++ &#x2F;usr&#x2F;bin&#x2F;g++-6 60</span><br><span class="line">sudo update-alternatives --install &#x2F;usr&#x2F;bin&#x2F;g++ g++ &#x2F;usr&#x2F;bin&#x2F;g++-7 70</span><br></pre></td></tr></table></figure>
+
+<p>然后选择gcc和g++版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --config gcc</span><br><span class="line">sudo update-alternatives --config g++</span><br></pre></td></tr></table></figure>
+
+<h2 id="多版本python和pip共存"><a href="#多版本python和pip共存" class="headerlink" title="多版本python和pip共存"></a>多版本python和pip共存</h2><p>ubuntu18.04自带python3，但是没有python2，pip2，pip3。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install python2.7  #安装python2.7</span><br><span class="line">sudo apt install python-minimal</span><br><span class="line">sudo apt install curl</span><br><span class="line">curl https:&#x2F;&#x2F;bootstrap.pypa.io&#x2F;get-pip.py -o get-pip.py</span><br><span class="line">sudo apt install python-testresources   #防止pip2出错</span><br><span class="line">sudo apt install python3-testresources  #防止pip3出错</span><br><span class="line">sudo python3 get-pip.py #安装pip3</span><br><span class="line">sudo python2 get-pip.py #安装pip3</span><br><span class="line">sudo pip3 install --upgrade pip #升级pip3</span><br><span class="line">sudo pip2 install --upgrade pip #升级pip2</span><br></pre></td></tr></table></figure>
+
+<p>此时pip和python并不知道指向2还是3，需要自己修改。我们使用alias来设置别名。我要让pip和python都指向3</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ whereis pip</span><br><span class="line">pip: &#x2F;usr&#x2F;local&#x2F;bin&#x2F;pip &#x2F;usr&#x2F;local&#x2F;bin&#x2F;pip3.6 &#x2F;usr&#x2F;local&#x2F;bin&#x2F;pip2.7</span><br><span class="line">$ whereis python</span><br><span class="line">python: &#x2F;usr&#x2F;bin&#x2F;python2.7 &#x2F;usr&#x2F;bin&#x2F;python2.7-config &#x2F;usr&#x2F;bin&#x2F;python3.6m &#x2F;usr&#x2F;bin&#x2F;python3.6 &#x2F;usr&#x2F;bin&#x2F;python3.6m-config &#x2F;usr&#x2F;bin&#x2F;python3.6-config &#x2F;usr&#x2F;bin&#x2F;python &#x2F;usr&#x2F;lib&#x2F;python2.7 &#x2F;usr&#x2F;lib&#x2F;python3.7 &#x2F;usr&#x2F;lib&#x2F;python3.6 &#x2F;etc&#x2F;python2.7 &#x2F;etc&#x2F;python3.6 &#x2F;etc&#x2F;python &#x2F;usr&#x2F;local&#x2F;lib&#x2F;python2.7 &#x2F;usr&#x2F;local&#x2F;lib&#x2F;python3.6 &#x2F;usr&#x2F;include&#x2F;python2.7 &#x2F;usr&#x2F;include&#x2F;python3.6m &#x2F;usr&#x2F;include&#x2F;python3.6 &#x2F;usr&#x2F;share&#x2F;python &#x2F;usr&#x2F;share&#x2F;man&#x2F;man1&#x2F;python.1.gz</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>error: Traceback (most recent call last):<br>  File “setup.py”, line 1, in <module><br>    from distutils.core import setup<br>ImportError: No module named distutils.core<br>报错缺少<code>python-distutils</code>包，安装即可。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install python3-distutils</span></span><br></pre></td></tr></table></figure>
+
+<p>可见pip3在：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;bin&#x2F;pip3.6</span><br></pre></td></tr></table></figure>
+
+<p>python在：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;bin&#x2F;python3.6</span><br></pre></td></tr></table></figure>
+
+<p>自定义alias别名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.bashrc</span><br></pre></td></tr></table></figure>
+
+<p>打开文件后，在最后一行加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alias pip&#x3D;&#x2F;usr&#x2F;local&#x2F;bin&#x2F;pip3.6</span><br><span class="line">alias python&#x3D;&#x2F;usr&#x2F;bin&#x2F;python3.6</span><br></pre></td></tr></table></figure>
+
+<p>然后更新环境：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;.bashrc</span><br></pre></td></tr></table></figure>
+
+<h2 id="支持exfat"><a href="#支持exfat" class="headerlink" title="支持exfat"></a>支持exfat</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install exfat-fuse exfat-utils</span><br></pre></td></tr></table></figure>
+
+<h2 id="音视频"><a href="#音视频" class="headerlink" title="音视频"></a>音视频</h2><h3 id="安装FFmpeg"><a href="#安装FFmpeg" class="headerlink" title="安装FFmpeg"></a>安装FFmpeg</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:djcj&#x2F;hybrid</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install ffmpeg</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装解码器"><a href="#安装解码器" class="headerlink" title="安装解码器"></a>安装解码器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ubuntu-restricted-extras</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装VLC视频播放器"><a href="#安装VLC视频播放器" class="headerlink" title="安装VLC视频播放器"></a>安装VLC视频播放器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install vlc browser-plugin-vlc</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装录制gif软件peek"><a href="#安装录制gif软件peek" class="headerlink" title="安装录制gif软件peek"></a>安装录制gif软件peek</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:peek-developers&#x2F;stable</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install peek</span><br></pre></td></tr></table></figure>
+
+<h2 id="美化"><a href="#美化" class="headerlink" title="美化"></a>美化</h2><h3 id="查看gnome版本"><a href="#查看gnome版本" class="headerlink" title="查看gnome版本"></a>查看gnome版本</h3><p>gnome3版本以下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gnome-panel --version   或者  gnome-about --gnome-version</span><br></pre></td></tr></table></figure>
+
+<p>gnome3版本以上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gnome-session --version  或者 gnome-shell --version</span><br></pre></td></tr></table></figure>
+
+<p>如我的gnome3版本如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xmaihh@xmaihh-H81M-S1:~$ gnome-shell --version</span><br><span class="line">GNOME Shell 3.28.3</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用Tweaks对gnome美化"><a href="#使用Tweaks对gnome美化" class="headerlink" title="使用Tweaks对gnome美化"></a>使用Tweaks对gnome美化</h3><p>Ubuntu 18.04 LTS 内置的是 gnome 桌面环境,安装一些主题、图标美化一下整个系统。再用几个插件增强一下效果和使用体验即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gnome-tweak-tool   #安装tweak</span><br><span class="line">sudo apt-get install gnome-shell-extensions -y  #安装shell扩展</span><br><span class="line">sudo apt install chrome-gnome-shell     #为了能在浏览器内安装gnome插件，火狐和谷歌都能用</span><br><span class="line">sudo apt-get install gtk2-engines-pixbuf    #防止GTK2错误</span><br><span class="line">sudo apt install libxml2-utils</span><br></pre></td></tr></table></figure>
+
+<p>gnome桌面环境主题、图标 下载地址：<br><a target="_blank" rel="noopener" href="https://www.gnome-look.org/">https://www.gnome-look.org/</a><br>以下是我使用配置：<br><a target="_blank" rel="noopener" href="https://github.com/EliverLara/Ant">仿macOS主题Ant</a><br><a target="_blank" rel="noopener" href="https://i.loli.net/2019/03/13/5c88ce2486591.png"><img src="https://i.loli.net/2019/03/13/5c88ce2486591.png" alt="Ant"></a>AntAnt<br>安装使用配置: `Ctrl+Alt+T 打开terminal，执行如下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rm &#x2F;var&#x2F;lib&#x2F;apt&#x2F;lists&#x2F;lock</span><br><span class="line">$ sudo rm &#x2F;var&#x2F;cache&#x2F;apt&#x2F;archives&#x2F;lock</span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install gnome-tweak-tool</span><br><span class="line">$ mkdir .themes</span><br><span class="line">$ cd ~&#x2F;.themes&#x2F;</span><br><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;EliverLara&#x2F;Ant.git</span><br></pre></td></tr></table></figure>
+
+<p>主题已经安装完成了，你可以打开 Tweaks – Appearance – Applications ，找到你刚下载下来的主题并一键使用。<br><a target="_blank" rel="noopener" href="https://i.loli.net/2019/03/13/5c88cf808feb5.png"><img src="https://i.loli.net/2019/03/13/5c88cf808feb5.png" alt="Ant主题使用"></a>Ant主题使用Ant主题使用<br><a target="_blank" rel="noopener" href="https://github.com/keeferrourke/la-capitaine-icon-theme">仿macOS主题扁平化图标 La Capitaine</a><br><a target="_blank" rel="noopener" href="https://i.loli.net/2019/03/13/5c88d29138933.png"><img src="https://i.loli.net/2019/03/13/5c88d29138933.png" alt="La Capitaine"></a>La CapitaineLa Capitaine</p>
+<p>同样，`Ctrl+Alt+T 打开terminal，执行如下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~&#x2F;.icons</span><br><span class="line">$ cd ~&#x2F;.icons&#x2F;</span><br><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;keeferrourke&#x2F;la-capitaine-icon-theme.git</span><br></pre></td></tr></table></figure>
+
+<p>OK，图标包安装完成，直接打开 Tweaks – Appearance – Icons ，选择使用即可。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/micheleg/dash-to-dock">仿macOS主题dask栏</a></p>
+<p><a target="_blank" rel="noopener" href="https://i.loli.net/2019/03/13/5c88d25f1c902.png"><img src="https://i.loli.net/2019/03/13/5c88d25f1c902.png" alt="dash-to-dock"></a>dash-to-dockdash-to-dock</p>
+<p>这是一个dask栏插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~</span><br><span class="line">$ mkdir .temp</span><br><span class="line">$ cd .temp&#x2F;</span><br><span class="line">$ wget https:&#x2F;&#x2F;github.com&#x2F;micheleg&#x2F;dash-to-dock&#x2F;archive&#x2F;master.zip</span><br><span class="line">$ cd master&#x2F;</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
+
+<p>还没结束！现在进入重点部分，在键盘按下 <strong>Alt+F2 键</strong>，在弹出的窗口中输入字母 <code>r</code>。</p>
+<p>嗯，现在才正式安装完插件。</p>
+<p><a target="_blank" rel="noopener" href="https://i.loli.net/2019/03/13/5c88d3dc523e6.png"><img src="https://i.loli.net/2019/03/13/5c88d3dc523e6.png" alt="Tweaks tool的界面"></a>Tweaks tool的界面Tweaks tool的界面</p>
+<h3 id="Dash-to-dock-Settings"><a href="#Dash-to-dock-Settings" class="headerlink" title="Dash to dock Settings"></a>Dash to dock Settings</h3><p><a target="_blank" rel="noopener" href="https://i.loli.net/2019/03/14/5c89a64d80b0c.png"><img src="https://i.loli.net/2019/03/14/5c89a64d80b0c.png" alt="Dash to dock Settings"></a>Dash to dock SettingsDash to dock Settings</p>
+<h4 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h4><ol>
+<li>我在安装的时候遇到Ubuntu18.04.2LTS自带dock栏与dash to dock冲突,输入以下命令将自带dock移动到～下，重启后即可解决此问题(也可移动到其他目录或者直接rm删除)。<strong>Ubuntu 更新后需要再执行一遍</strong>，因为更新会修复自带的 dock。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo mv &#x2F;usr&#x2F;share&#x2F;gnome-shell&#x2F;extensions&#x2F;ubuntu-dock@ubuntu.com ~&#x2F;</span><br><span class="line">或者</span><br><span class="line">sudo rm -rf &#x2F;usr&#x2F;share&#x2F;gnome-shell&#x2F;extensions&#x2F;ubuntu-dock@ubuntu.com</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>前面说到查看gnome版本，<a target="_blank" rel="noopener" href="https://github.com/micheleg/dash-to-dock">dash-to-dock</a>有对应的<code>branch</code>，<code>git clone</code>拉取时加上<code>-b</code>参数拉取对应版本分支</li>
+</ol>
+<h2 id="聊天软件"><a href="#聊天软件" class="headerlink" title="聊天软件"></a>聊天软件</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://telegram.org/">Telegram</a></p>
+</li>
+<li><p>Wechat Work&amp; Foxmail</p>
+<p>使用<a target="_blank" rel="noopener" href="https://github.com/wszqkzqk/deepin-wine-ubuntu">deepin-wine-ubuntu</a> 移植的企业微信 和Foxmail</p>
+</li>
+</ul>
+<p>其他deepin-wine容器：<a target="_blank" rel="noopener" href="http://mirrors.aliyun.com/deepin/pool/non-free/d/">阿里云镜像下载</a></p>
+<p>安装使用：</p>
+<p>打开terminal,执行下列命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;wszqkzqk&#x2F;deepin-wine-ubuntu.git</span><br></pre></td></tr></table></figure>
+
+<p>cd到deepin-wine-for-ubuntu文件夹下面，执行下列命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;install.sh</span><br></pre></td></tr></table></figure>
+
+<p>在home目录下新建一个文件夹,我命名的是softwares，然后cd进入softwares，执行如下命令:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;deepin&#x2F;pool&#x2F;non-free&#x2F;d&#x2F;deepin.com.weixin.work&#x2F;deepin.com.weixin.work_2.4.16.1347deepin0_i386.deb</span><br></pre></td></tr></table></figure>
+
+<p>在softwares目录下,执行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i deepin.com.weixin.work_2.4.16.1347deepin0_i386.deb</span><br></pre></td></tr></table></figure>
+
+<h2 id="网速和CPU使用率工具"><a href="#网速和CPU使用率工具" class="headerlink" title="网速和CPU使用率工具"></a>网速和CPU使用率工具</h2><p>打开terminal,执行下列命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:fossfreedom&#x2F;indicator-sysmonitor</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install indicator-sysmonitor</span><br></pre></td></tr></table></figure>
+
+<p>接着执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ndicator-sysmonitor &amp;</span><br></pre></td></tr></table></figure>
+
+<p>然后Ctrl+C就可以实现后台运行indicator-sysmonitor</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/xmaihh/piggo-token/master/img20190313142855.png"><img src="https://raw.githubusercontent.com/xmaihh/piggo-token/master/img20190313142855.png" alt="运行效果"></a>运行效果运行效果</p>
+<p>设置开机启动</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/xmaihh/piggo-token/master/img20190313143941.png"><img src="https://raw.githubusercontent.com/xmaihh/piggo-token/master/img20190313143941.png" alt="设置开机启动"></a>设置开机启动设置开机启动</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/xmaihh/piggo-token/master/img20190313144129.png"><img src="https://raw.githubusercontent.com/xmaihh/piggo-token/master/img20190313144129.png" alt="参数配置"></a>参数配置参数配置</p>
+<h2 id="安装npm"><a href="#安装npm" class="headerlink" title="安装npm"></a>安装npm</h2><p>下载<a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn/download/">Node.js</a></p>
+<p>接着执行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;node&#x2F;</span><br><span class="line"></span><br><span class="line">wget https:&#x2F;&#x2F;npm.taobao.org&#x2F;mirrors&#x2F;node&#x2F;v10.15.3&#x2F;node-v10.15.3-linux-x64.tar.gz  #下载安装包</span><br><span class="line"></span><br><span class="line">tar -zxvf node-v10.15.3-linux-x64.tar.gz  # 解压安装包</span><br><span class="line"></span><br><span class="line">rm  node-v10.15.3-linux-x64.tar.gz  # 移除安装包</span><br><span class="line"></span><br><span class="line">ln -s &#x2F;usr&#x2F;local&#x2F;node&#x2F;node-v10.15.3-linux-x64&#x2F;bin&#x2F;npm &#x2F;usr&#x2F;local&#x2F;bin&#x2F;npm</span><br><span class="line"></span><br><span class="line">ln -s &#x2F;usr&#x2F;local&#x2F;node&#x2F;node-v10.15.3-linux-x64&#x2F;bin&#x2F;node &#x2F;usr&#x2F;local&#x2F;bin&#x2F;node</span><br></pre></td></tr></table></figure>
+
+<p>查看npm版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xmaihh@xmaihh-H81M-S1:&#x2F;usr&#x2F;local&#x2F;node$ npm -v</span><br><span class="line">6.4.1</span><br></pre></td></tr></table></figure>
+
+<p>npm升级,@后面是版本号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -g npm@6.4.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><p>在 Ubuntu 这类 Debian 体系的系统上，可以用 apt-get 安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure>
+
+<p>配置信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot; #引号里面输入你的名字</span><br><span class="line">git config --global user.email &quot;youremail&quot; #输入邮箱</span><br><span class="line">git config --global core.autocrlf false #消除由于Windows和Linux平台中换行符的差异导致的问题</span><br><span class="line">git config --global core.quotepath off #消除由于路径或者是文件名包含中文导致的乱码问题</span><br><span class="line">git config --global gui.encoding utf-8 #消除gui界面中文乱码问题(如果全程使用命令行的话不用担心这个问题)</span><br><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot; #配置ssh的密钥，输完之后一路回车</span><br><span class="line">eval &#96;ssh-agent&#96; #启用ssh-agent</span><br><span class="line">ssh-add ~&#x2F;.ssh&#x2F;id_rsa #添加密钥</span><br><span class="line">ssh-add -l #将它添加到已知的key列表中</span><br><span class="line">cat ~&#x2F;.ssh&#x2F;id_rsa.pub #把这个公钥添加到自己的Github账户上去</span><br></pre></td></tr></table></figure>
+
+<h1 id="2019-7-30补充-卸载Sougou输入法"><a href="#2019-7-30补充-卸载Sougou输入法" class="headerlink" title="2019-7-30补充 卸载Sougou输入法"></a>2019-7-30补充 卸载Sougou输入法</h1><p>鉴于Sougou Pinyin输入法在gnome3桌面日常崩溃，每每查看 /var/crash/ 目录下崩溃日志都有，卸载了。</p>
+<p>  $ sudo apt-get  purge  sogoupinyin     （卸载搜狗拼音输入法）<br>  $ sudo apt-get purge  fcitx     （卸载fcitx）<br>  $ sudo apt-get autoremove    （彻底卸载fcitx及相关配置）<br>注销重新登录一下或者重启。</p>
+<p>新输入法<br>rime输入法</p>
+<p>$ sudo apt install ibus-rime（安装rime输入法）</p>
+<p>$ sudo apt install librime-data-wubi（安装五笔库）</p>
+<p>$ sudo apt install librime-data-pinyin-simp （安装简体拼音库）<br>在 ~/.config/ibus/rime/ 下新建一个文件  default.custom.yaml （覆盖默认设置）</p>
+<p>内容是：</p>
+<p>patch:</p>
+<pre><code>   schema_list:
+
+           - schema: wubi_pinyin
+
+           - schema: pinyin_simp
+
+           - schema: wubi86
+</code></pre>
+<p>说明：schema 是输入法顺序，如果仅用拼音或五笔，则将对应的项移到最前面，本人要五笔拼音一起混用，所以将wubi_pinyin放到了前面。</p>
+<p>并且修改</p>
+<p>wubi_pinyin.schema.yaml</p>
+<p>switches下的reset 值由0改为1，意思是重启后默认由中文状态改为英文状态。</p>
+<p>重启操作系统，使安装生效。</p>
+<p>打开“setting（设置）”，“Region&amp;Language（区域和语言）”，点+号，添加输入法 Chinese(Rime) 。如果不用其它输入法，可以删除，其实也真不用其它输入法了</p>
+<p>注销重新登录一下或者重启。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="https://blog.jackyu.club/jack/1-13/">Ubuntu18.04完整新手安装教程</a></p>
+<p><a target="_blank" rel="noopener" href="https://sspai.com/post/45791">Ubuntu 18.04 LTS 安装（踩坑）配置全记录</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012052268/article/details/77145427">安装Ubuntu Linux系统时硬盘分区最合理的方法</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hymanjack/article/details/80285400">Ubuntu18.04安装后应该做的事</a></p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=%5Bhttps://jingyan.baidu.com/article/4853e1e5b090a31909f7269c.html%5D(https://jingyan.baidu.com/article/4853e1e5b090a31909f7269c.html)">Ubuntu 18.04 安装 ibus-rime 输入法</a></p>
+</div><div class="tags"><a href="/tags/Ubuntu/"><i class="fa fa-tag"></i>Ubuntu</a></div><div class="post-nav"><a class="pre" href="/2019/03/15/Ubuntu18-04-2LTS%E5%AE%89%E8%A3%85OracleJavaJDK%208/">Ubuntu18.04.2LTS安装Oracle Java JDK 8</a><a class="next" href="/2019/03/06/%E9%AB%98%E5%AD%97%E8%8A%82%E4%B8%8E%E4%BD%8E%E5%AD%97%E8%8A%82%E3%80%81%E9%AB%98%E5%9C%B0%E5%9D%80%E4%B8%8E%E4%BD%8E%E5%9C%B0%E5%9D%80%E3%80%81%E5%A4%A7%E7%AB%AF%E6%A8%A1%E5%BC%8F%E4%B8%8E%E5%B0%8F%E7%AB%AF%E6%A8%A1%E5%BC%8F%E3%80%81%E7%BD%91%E7%BB%9C%E5%AD%97%E8%8A%82%E9%A1%BA%E5%BA%8F%E4%B8%8E%E4%B8%BB%E6%9C%BA%E5%AD%97%E8%8A%82%E9%A1%BA%E5%BA%8F/">高字节与低字节、高地址与低地址、大端模式与小端模式、网络字节顺序与主机字节顺序</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'ncycqYiwBC0WPXrXqROLBhpf-gzGzoHsz',
+  appKey:'2xrqDbFCh3xnfMGAYJBisfAT',
+  placeholder:'Just so so',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10'
+})
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android-Framework/">Android Framework</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Raspberry-Pi/">Raspberry Pi</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SDK%E5%BC%80%E5%8F%91/">SDK开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/">后端技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/">微信小程序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/ADB/" style="font-size: 15px;">ADB</a> <a href="/tags/BLE/" style="font-size: 15px;">BLE</a> <a href="/tags/Lottie/" style="font-size: 15px;">Lottie</a> <a href="/tags/AndroidStudio/" style="font-size: 15px;">AndroidStudio</a> <a href="/tags/SDK/" style="font-size: 15px;">SDK</a> <a href="/tags/Jni/" style="font-size: 15px;">Jni</a> <a href="/tags/C-C/" style="font-size: 15px;">C/C++</a> <a href="/tags/Archlinux/" style="font-size: 15px;">Archlinux</a> <a href="/tags/Debian/" style="font-size: 15px;">Debian</a> <a href="/tags/Golang/" style="font-size: 15px;">Golang</a> <a href="/tags/Flutter/" style="font-size: 15px;">Flutter</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Camera/" style="font-size: 15px;">Camera</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/ArchLinux/" style="font-size: 15px;">ArchLinux</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/Ubuntu/" style="font-size: 15px;">Ubuntu</a> <a href="/tags/Gdrive/" style="font-size: 15px;">Gdrive</a> <a href="/tags/ZeroTier/" style="font-size: 15px;">ZeroTier</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15px;">微信小程序</a> <a href="/tags/Raspberry-Pi/" style="font-size: 15px;">Raspberry Pi</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/12/11/Java%E4%B8%ADdouble%E8%BD%ACint%E7%B1%BB%E5%9E%8B%E6%8C%89%E5%9B%9B%E8%88%8D%E4%BA%94%E5%85%A5%E5%8F%96%E6%95%B4/">Java中double转int类型按四舍五入取整</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/11/05/Java%E4%BD%8D%E8%BF%90%E7%AE%97(%E7%A7%BB%E4%BD%8D%E3%80%81%E4%B8%8E%E3%80%81%E6%88%96%E3%80%81%E5%BC%82%E6%88%96%E3%80%81%E9%9D%9E)/">Java位运算(移位、与、或、异或、非)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/20/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E7%9A%84%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8%E5%AE%A1%E6%A0%B8/">小程序开发的内容安全审核</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/13/Flutter%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E5%92%8C%E4%BC%A0%E5%80%BC/">Flutter开发中的页面跳转和传值</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/17/%E6%A0%91%E8%8E%93%E6%B4%BE4-Ubuntu18.04.2LTS%E4%B8%8B%E9%85%8D%E7%BD%AEWiFi%E4%B8%8ESSH%E8%BF%9E%E6%8E%A5/">树莓派4-Ubuntu18.04.2LTS下配置WiFi与SSH连接</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/31/AndroidStudio%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90jni%E5%A4%B4%E6%96%87%E4%BB%B6/">AndroidStudio快速生成jni头文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/30/Android%E5%BD%95%E9%9F%B3/">Android录音</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/19/Ubuntu18-04-2LTS%E4%B8%8BWireshark%E6%8A%A5%E9%94%99Permission-denied/">Ubuntu18.04.2LTS下Wireshark报错Permission denied</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/10/Ubuntu18-04-2LTS%E9%85%8D%E7%BD%AEvnc-frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%AE%9E%E7%8E%B0%E6%A1%8C%E9%9D%A2%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/">Ubuntu18.04.2LTS配置vnc+frp内网穿透实现桌面远程访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/18/MySQL%E5%AD%97%E7%AC%A6%E8%BD%AC%E4%B9%89%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/">MySQL字符转义处理方法</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://quincyJiang.github.io" title="瘟疫青年" target="_blank">瘟疫青年</a><ul></ul><a href="https://github.com/xmaihh" title="github" target="_blank">github</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">小麦.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.0.0"><script type="text/javascript" src="/js/search.js?v=1.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>

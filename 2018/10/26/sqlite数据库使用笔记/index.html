@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>Sqlite数据库使用笔记 | 小麦</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create','UA-131087828-1','auto');ga('send','pageview');
+</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Sqlite数据库使用笔记</h1><a id="logo" href="/.">小麦</a><p class="description">人生的大起大落来得太突然，搞得我直想尿尿...</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Sqlite数据库使用笔记</h1><div class="post-meta">2018-10-26<span> | </span><span class="category"><a href="/categories/SQL/">SQL</a></span></div><a class="disqus-comment-count" href="/2018/10/26/sqlite%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/#vcomment"><span class="valine-comment-count" data-xid="/2018/10/26/sqlite%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/"></span><span> 条评论</span></a><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#sqlite%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">sqlite的特点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sqlite%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">sqlite的线程模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sqlite%E7%9A%84%E4%BA%8B%E5%8A%A1"><span class="toc-number">3.</span> <span class="toc-text">sqlite的事务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sqlite%E7%9A%84%E9%94%81%E6%9C%BA%E5%88%B6"><span class="toc-number">4.</span> <span class="toc-text">sqlite的锁机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sqlite%E7%9A%84%E6%AD%BB%E9%94%81"><span class="toc-number">5.</span> <span class="toc-text">sqlite的死锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sqlite%E7%9A%84WAL%E6%A8%A1%E5%BC%8F"><span class="toc-number">6.</span> <span class="toc-text">sqlite的WAL模式</span></a></li></ol></div></div><div class="post-content"><h1 id="sqlite的特点"><a href="#sqlite的特点" class="headerlink" title="sqlite的特点"></a>sqlite的特点</h1><p><a target="_blank" rel="noopener" href="https://www.sqlite.org/index.html">sqlite</a>只支持库级锁，同时只能允许一个写操作。但SQLite尽量延迟申请X锁，直到数据块真正写盘时才申请X锁，非常巧妙而有效。</p>
+<blockquote>
+<p>注: 读锁(S锁）、写锁(X锁）</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.sqlite.org/faq.html#q6">Is SQLite threadsafe?</a>  SQLite官网上的最权威的解答,答案是sqlite是线程安全的。</p>
+<h1 id="sqlite的线程模式"><a href="#sqlite的线程模式" class="headerlink" title="sqlite的线程模式"></a>sqlite的线程模式</h1><p>SQLite支持<a target="_blank" rel="noopener" href="https://www.sqlite.org/threadsafe.html">3种线程模式</a></p>
+<ol>
+<li><p>单线程：禁用所有的mutex锁，并发使用时会出错。当SQLite编译时加了SQLITE_THREADSAFE=0参数，或者在初始化SQLite前调用sqlite3_config(SQLITE_CONFIG_SINGLETHREAD)时启用。</p>
+</li>
+<li><p>多线程：只要一个数据库连接不被多个线程同时使用就是安全的。源码中是启用bCoreMutex，禁用bFullMutex。实际上就是禁用数据库连接和prepared statement（准备好的语句）上的锁，因此不能在多个线程中并发使用同一个数据库连接或prepared statement。当SQLite编译时加了SQLITE_THREADSAFE=2参数时默认启用。若SQLITE_THREADSAFE不为0，可以在初始化SQLite前，调用sqlite3_config(SQLITE_CONFIG_MULTITHREAD)启用；或者在创建数据库连接时，设置SQLITE_OPEN_NOMUTEX flag。</p>
+</li>
+<li><p>串行：启用所有的锁，包括bCoreMutex和bFullMutex。因为数据库连接和prepared statement都已加锁，所以多线程使用这些对象时没法并发，也就变成串行了。当SQLite编译时加了SQLITE_THREADSAFE=1参数时默认启用。若SQLITE_THREADSAFE不为0，可以在初始化SQLite前，调用sqlite3_config(SQLITE_CONFIG_SERIALIZED)启用；或者在创建数据库连接时，设置SQLITE_OPEN_FULLMUTEX flag。</p>
+</li>
+</ol>
+<h1 id="sqlite的事务"><a href="#sqlite的事务" class="headerlink" title="sqlite的事务"></a>sqlite的事务</h1><p><a target="_blank" rel="noopener" href="https://www.sqlite.org/lang_transaction.html">事务</a>是和数据库连接相关的，每个数据库连接（使用pager来）维护自己的事务，且同时只能有一个事务（但是可以用SAVEPOINT来实现内嵌事务）。数据库只有在<a target="_blank" rel="noopener" href="https://www.sqlite.org/lang_transaction.html">事务</a>中才能被更改。所有更改数据库的命令（除SELECT以外的所有SQL命令）都会自动开启一个新事务，并且当最后一个查询完成时自动提交。</p>
+<p>下面用Android/Java来演示一下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Database.beginTransaction();  &#x2F;&#x2F;手动设置开始事务</span><br><span class="line">dosomething();</span><br><span class="line">userDatabase.setTransactionSuccessful();        &#x2F;&#x2F;设置事务处理成功，不设置会自动回滚不提交</span><br><span class="line">userDatabase.endTransaction();        &#x2F;&#x2F;处理完成</span><br></pre></td></tr></table></figure>
+<p>事务在改写数据库文件时，会先生成一个rollback journal（回滚日志），记录初始状态（其实就是备份），所有改动都是在数据库文件上进行的。当事务需要回滚时，可以将备份文件的内容还原到数据库文件；提交成功时，默认的delete模式下会直接删除这个日志。这个日志也可以帮助解决事务执行过程中断电，导致数据库文件损坏的问题。但如果操作系统或文件系统有bug，或是磁盘损坏，则仍有可能无法恢复。</p>
+<h1 id="sqlite的锁机制"><a href="#sqlite的锁机制" class="headerlink" title="sqlite的锁机制"></a>sqlite的锁机制</h1><p>SQLite基于锁来实现并发控制。SQLite的锁是粗粒度的，并不拥有PostgreSQL那样细粒度的行锁，这也使得SQLite较为轻量级。当一个连接要写数据库时，所有其它的连接都被锁住，直到写连接结束它的事务。</p>
+<p>sqlite的数据库连接有5种锁状态:</p>
+<table>
+<thead>
+<tr>
+<th align="center">状态</th>
+<th align="center">对应的锁</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">未加锁（unlock）</td>
+<td align="center">—</td>
+<td align="center">未和数据库建立连接、已建立连接但是还没访问数据库、已用BEGIN开始了一个事务但未开始读写数据库，处于这些情形时是未加锁状态。</td>
+</tr>
+<tr>
+<td align="center">共享（shared）</td>
+<td align="center">共享锁</td>
+<td align="center">连接需要从数据库中读取数据时，需要申请获得一个共享锁，如果获得成功，则进入共享状态。</td>
+</tr>
+<tr>
+<td align="center">预留（reserved）</td>
+<td align="center">预留锁</td>
+<td align="center">连接需要写数据库时，首先申请一个预留锁，一个数据库同时只能有一个预留锁，预留锁可以与共享锁共存。获得预留锁后进入预留状态，这时会先在缓冲区中进行需要的修改、更新操作，操作后的结果依然保存在缓冲区中，未真正写入数据库。</td>
+</tr>
+<tr>
+<td align="center">未决（pending）</td>
+<td align="center">未决锁</td>
+<td align="center">连接从预留升为排它前，需要先升为未决，这时其它连接就不能获得共享锁了，但已经拥有共享锁的连接仍然可以继续正常读数据库，此时，拥有未决锁的连接等待其它拥有共享锁的连接完成工作并释放其共享锁后，提成到排它锁。</td>
+</tr>
+<tr>
+<td align="center">排它（exclusive）</td>
+<td align="center">排它锁</td>
+<td align="center">连接需要提交修改时，需要将预留锁升为排它锁，这时其它连接都无法获得任何锁，直到当前连接的排它状态结束。</td>
+</tr>
+</tbody></table>
+<ul>
+<li>UNLOCKED：表示数据库此时并未被读写。</li>
+<li>SHARED：表示数据库可以被读取。SHARED锁可以同时被多个线程拥有。一旦某个线程持有SHARED锁，就没有任何线程可以进行写操作。</li>
+<li>RESERVED：表示准备写入数据库。RESERVED锁最多只能被一个线程拥有，此后它可以进入PENDING状态。</li>
+<li>PENDING：表示即将写入数据库，正在等待其他读线程释放SHARED锁。一旦某个线程持有PENDING锁，其他线程就不能获取SHARED锁。这样一来，只要等所有读线程完成，释放SHARED锁后，它就可以进入EXCLUSIVE状态了。</li>
+<li>EXCLUSIVE：表示它可以写入数据库了。进入这个状态后，其他任何线程都不能访问数据库文件。因此为了并发性，它的持有时间越短越好。</li>
+</ul>
+<p>一个线程只有在拥有低级别的锁的时候，才能获取更高一级的锁。SQLite就是靠这5种类型的锁，巧妙地实现了读写线程的互斥。同时也可看出，写操作必须进入EXCLUSIVE状态，此时并发数被降到1，这也是SQLite被认为并发插入性能不好的原因。<br>另外，read-uncommitted和WAL模式会影响这个锁的机制。在这2种模式下，读线程不会被写线程阻塞，即使写线程持有PENDING或EXCLUSIVE锁。</p>
+<h1 id="sqlite的死锁"><a href="#sqlite的死锁" class="headerlink" title="sqlite的死锁"></a>sqlite的死锁</h1><p>在使用事务的情况下，SQLite的锁机制存在死锁的可能性。</p>
+<p>举例说明死锁:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">连接1：BEGIN （UNLOCKED）</span><br><span class="line">连接1：SELECT ... （SHARED）</span><br><span class="line">连接1：INSERT ... （RESERVED）</span><br><span class="line">连接2：BEGIN （UNLOCKED）</span><br><span class="line">连接2：SELECT ... （SHARED）</span><br><span class="line">连接1：COMMIT （PENDING，尝试获取EXCLUSIVE锁，但还有SHARED锁未释放，返回SQLITE_BUSY）</span><br><span class="line">连接2：INSERT ... （尝试获取RESERVED锁，但已有PENDING锁未释放，返回SQLITE_BUSY）</span><br></pre></td></tr></table></figure>
+<p>现在2个连接都在等待对方释放锁，于是就死锁了。当然，实际情况并没那么糟糕，任何一方选择不继续等待，回滚事务就行了。</p>
+<p>不过要更好地解决这个问题，就必须更深入地了解事务了。<br>实际上BEGIN语句可以有3种起始状态：</p>
+<ul>
+<li>DEFERRED：默认值，开始事务时不获取任何锁。进行第一次读操作时获取。</li>
+<li>SHARED锁，进行第一次写操作时获取RESERVED锁。</li>
+<li>IMMEDIATE：开始事务时获取RESERVED锁。<br>EXCLUSIVE：开始事务时获取EXCLUSIVE锁。</li>
+</ul>
+<p>现在考虑2个事务在开始时都使用IMMEDIATE方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">连接1：BEGIN IMMEDIATE （RESERVED）</span><br><span class="line">连接1：SELECT ... （RESERVED）</span><br><span class="line">连接1：INSERT ... （RESERVED）</span><br><span class="line">连接2：BEGIN IMMEDIATE （尝试获取RESERVED锁，但已有RESERVED锁未释放，因此事务开始失败，返回SQLITE_BUSY，等待用户重试）</span><br><span class="line">连接1：COMMIT （EXCLUSIVE，写入完成后释放）</span><br><span class="line">连接2：BEGIN IMMEDIATE （RESERVED）</span><br><span class="line">连接2：SELECT ... （RESERVED）</span><br><span class="line">连接2：INSERT ... （RESERVED）</span><br><span class="line">连接2：COMMIT （EXCLUSIVE，写入完成后释放）</span><br></pre></td></tr></table></figure>
+<p>这样死锁就被避免了。</p>
+<p>而EXCLUSIVE方式则更为严苛，即使其他连接以DEFERRED方式开启事务也不会死锁：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">连接1：BEGIN EXCLUSIVE （EXCLUSIVE）</span><br><span class="line">连接1：SELECT ... （EXCLUSIVE）</span><br><span class="line">连接1：INSERT ... （EXCLUSIVE）</span><br><span class="line">连接2：BEGIN （UNLOCKED）</span><br><span class="line">连接2：SELECT ... （尝试获取SHARED锁，但已有EXCLUSIVE锁未释放，返回SQLITE_BUSY，等待用户重试）</span><br><span class="line">连接1：COMMIT （EXCLUSIVE，写入完成后释放）</span><br><span class="line">连接2：SELECT ... （SHARED）</span><br><span class="line">连接2：INSERT ... （RESERVED）</span><br><span class="line">连接2：COMMIT （EXCLUSIVE，写入完成后释放）</span><br></pre></td></tr></table></figure>
+<p>不过在并非很高的情况下，直接获取EXCLUSIVE锁的难度比较大；而且为了避免EXCLUSIVE状态长期阻塞其他请求，最好的方式还是让所有写事务都以IMMEDIATE方式开始。<br>顺带一提，要实现重试的话，可以使用sqlite3_busy_timeout()或sqlite3_busy_handler()函数。</p>
+<p>由此可见，要想保证线程安全的话，可以有这4种方式：</p>
+<ol>
+<li>SQLite使用单线程模式，用一个专门的线程访问数据库。</li>
+<li>SQLite使用单线程模式，用一个线程队列来访问数据库，队列一次只允许一个线程执行，队列里的线程共用一个数据库连接。</li>
+<li>SQLite使用多线程模式，每个线程创建自己的数据库连接。</li>
+<li>SQLite使用串行模式，所有线程共用全局的数据库连接。</li>
+</ol>
+<p>第一种方式太过麻烦，需要线程间通信。<br>第二种方式可以用dispatch_queue_create()来创建一个serial queue，或者用一个maxConcurrentOperationCount为1的NSOperationQueue来实现。<br>这种方式的缺点就是事务必须在一个block或operation里完成，否则会乱序；而耗时较长的事务会阻塞队列。另外，没法利用多核CPU的优势。</p>
+<h1 id="sqlite的WAL模式"><a href="#sqlite的WAL模式" class="headerlink" title="sqlite的WAL模式"></a>sqlite的WAL模式</h1><p>WAL的全称Write Ahead Log,修改并不直接写入到数据库文件中，而是写入到另外一个称为WAL的文件中；如果事务失败，WAL中的记录会被忽略，撤销修改；如果事务成功，它将在随后的某个时间被写回到数据库文件中，提交修改。</p>
+<p>WAL使用检查点将修改写回数据库，默认情况下，当WAL文件发现有1000页修改时，将自动调用检查点。这个页数大小可以自行配置。</p>
+<p>使用WAL的优势:</p>
+<ul>
+<li>读写操作不再互相阻塞，一定程度上解决了SQLite在处理高并发上的性能瓶颈</li>
+<li>大多数场景中，带来很大的性能提升</li>
+<li>磁盘I/O行为更容易被预测</li>
+</ul>
+<p>缺点:<br>除非数据达到GB级时，性能才会降低。</p>
+<p>android中如何开启WAL模式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SQLiteDatabase db &#x3D; SQLiteDatabase.openDatabase(&quot;db_filename&quot;, </span><br><span class="line">cursorFactory,CREATE_IF_NECESSARY, myDatabaseErrorHandler);</span><br><span class="line">db.enableWriteAheadLogging();</span><br></pre></td></tr></table></figure>
+<p>来看看SQLiteDatabase开启WAL的核心方法源码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public boolean enableWriteAheadLogging() &#123;</span><br><span class="line">        &#x2F;&#x2F; make sure the database is not READONLY. WAL doesn&#39;t make sense for readonly-databases.</span><br><span class="line">        if (isReadOnly()) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; acquire lock - no that no other thread is enabling WAL at the same time</span><br><span class="line">        lock();</span><br><span class="line">        try &#123;</span><br><span class="line">            if (mConnectionPool !&#x3D; null) &#123;</span><br><span class="line">                &#x2F;&#x2F; already enabled</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">            if (mPath.equalsIgnoreCase(MEMORY_DB_PATH)) &#123;</span><br><span class="line">                Log.i(TAG, &quot;can&#39;t enable WAL for memory databases.&quot;);</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            &#x2F;&#x2F; make sure this database has NO attached databases because sqlite&#39;s write-ahead-logging</span><br><span class="line">            &#x2F;&#x2F; doesn&#39;t work for databases with attached databases</span><br><span class="line">            if (mHasAttachedDbs) &#123;</span><br><span class="line">                if (Log.isLoggable(TAG, Log.DEBUG)) &#123;</span><br><span class="line">                    Log.d(TAG,</span><br><span class="line">                            &quot;this database: &quot; + mPath + &quot; has attached databases. can&#39;t  enable WAL.&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            mConnectionPool &#x3D; new DatabaseConnectionPool(this);  &#x2F;&#x2F; 创建数据库连接池，由于要支持并发访问所以需要连接池的支持</span><br><span class="line">            setJournalMode(mPath, &quot;WAL&quot;); &#x2F;&#x2F; 调用setJournalMode设置模式为WAL</span><br><span class="line">            return true;</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>开启了WAL模式之后，事务的开始需要注意，在源码的注释是这样写到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Writers should use &#123;@link #beginTransactionNonExclusive()&#125; or</span><br><span class="line">     * &#123;@link #beginTransactionWithListenerNonExclusive(SQLiteTransactionListener)&#125;</span><br></pre></td></tr></table></figure>
+<p>调用者需要使用beginTransactionNonExclusive或者beginTransactionWithListenerNonExclusive来开始事务，也就是执行：BEGIN IMMEDIATE; 支持多并发。</p>
+<p>开启了WAL模式磁盘中是这样的文件格式:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xxx.db</span><br><span class="line">xxx.db-shm</span><br><span class="line">xxx.db-wal</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-shm文件包含-wal文件的数据索引，-shm文件提升-wal文件的读性能<br>如果-shm文件被删除，下次数据库连接时会自动新建一个-shm文件<br>如果执行了checkpoint命令，-war文件可以删除。</p>
+</blockquote>
+</div><div class="tags"><a href="/tags/SQL/"><i class="fa fa-tag"></i>SQL</a></div><div class="post-nav"><a class="pre" href="/2018/11/07/Program-type-already-present-com-alibaba-android-arouter-routes-ARouter/">Program type already present: com.alibaba.android.arouter.routes.ARouter</a><a class="next" href="/2018/10/18/%E5%8A%A8%E6%89%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/">动手实现一个微信小程序</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'ncycqYiwBC0WPXrXqROLBhpf-gzGzoHsz',
+  appKey:'2xrqDbFCh3xnfMGAYJBisfAT',
+  placeholder:'Just so so',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10'
+})
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android-Framework/">Android Framework</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Raspberry-Pi/">Raspberry Pi</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SDK%E5%BC%80%E5%8F%91/">SDK开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/">后端技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/">微信小程序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/ADB/" style="font-size: 15px;">ADB</a> <a href="/tags/BLE/" style="font-size: 15px;">BLE</a> <a href="/tags/Lottie/" style="font-size: 15px;">Lottie</a> <a href="/tags/AndroidStudio/" style="font-size: 15px;">AndroidStudio</a> <a href="/tags/SDK/" style="font-size: 15px;">SDK</a> <a href="/tags/Jni/" style="font-size: 15px;">Jni</a> <a href="/tags/C-C/" style="font-size: 15px;">C/C++</a> <a href="/tags/Archlinux/" style="font-size: 15px;">Archlinux</a> <a href="/tags/Debian/" style="font-size: 15px;">Debian</a> <a href="/tags/Golang/" style="font-size: 15px;">Golang</a> <a href="/tags/Flutter/" style="font-size: 15px;">Flutter</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Camera/" style="font-size: 15px;">Camera</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/ArchLinux/" style="font-size: 15px;">ArchLinux</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/Ubuntu/" style="font-size: 15px;">Ubuntu</a> <a href="/tags/Gdrive/" style="font-size: 15px;">Gdrive</a> <a href="/tags/ZeroTier/" style="font-size: 15px;">ZeroTier</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15px;">微信小程序</a> <a href="/tags/Raspberry-Pi/" style="font-size: 15px;">Raspberry Pi</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/12/11/Java%E4%B8%ADdouble%E8%BD%ACint%E7%B1%BB%E5%9E%8B%E6%8C%89%E5%9B%9B%E8%88%8D%E4%BA%94%E5%85%A5%E5%8F%96%E6%95%B4/">Java中double转int类型按四舍五入取整</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/11/05/Java%E4%BD%8D%E8%BF%90%E7%AE%97(%E7%A7%BB%E4%BD%8D%E3%80%81%E4%B8%8E%E3%80%81%E6%88%96%E3%80%81%E5%BC%82%E6%88%96%E3%80%81%E9%9D%9E)/">Java位运算(移位、与、或、异或、非)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/20/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E7%9A%84%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8%E5%AE%A1%E6%A0%B8/">小程序开发的内容安全审核</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/13/Flutter%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E5%92%8C%E4%BC%A0%E5%80%BC/">Flutter开发中的页面跳转和传值</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/17/%E6%A0%91%E8%8E%93%E6%B4%BE4-Ubuntu18.04.2LTS%E4%B8%8B%E9%85%8D%E7%BD%AEWiFi%E4%B8%8ESSH%E8%BF%9E%E6%8E%A5/">树莓派4-Ubuntu18.04.2LTS下配置WiFi与SSH连接</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/31/AndroidStudio%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90jni%E5%A4%B4%E6%96%87%E4%BB%B6/">AndroidStudio快速生成jni头文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/30/Android%E5%BD%95%E9%9F%B3/">Android录音</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/19/Ubuntu18-04-2LTS%E4%B8%8BWireshark%E6%8A%A5%E9%94%99Permission-denied/">Ubuntu18.04.2LTS下Wireshark报错Permission denied</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/10/Ubuntu18-04-2LTS%E9%85%8D%E7%BD%AEvnc-frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%AE%9E%E7%8E%B0%E6%A1%8C%E9%9D%A2%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/">Ubuntu18.04.2LTS配置vnc+frp内网穿透实现桌面远程访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/18/MySQL%E5%AD%97%E7%AC%A6%E8%BD%AC%E4%B9%89%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/">MySQL字符转义处理方法</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://quincyJiang.github.io" title="瘟疫青年" target="_blank">瘟疫青年</a><ul></ul><a href="https://github.com/xmaihh" title="github" target="_blank">github</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">小麦.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.0.0"><script type="text/javascript" src="/js/search.js?v=1.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
